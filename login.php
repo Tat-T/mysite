@@ -4,14 +4,15 @@
 
     $login = $_POST['login'] ?? false;
     $password = $_POST['password'] ?? false;
-
+    // var_dump($login, $password);
     if ($login || $password) {
         $users = readUsers();
         $result = array_filter($users, function($user) use ($login, $password){
-          return strtolower($user[0])  ==strtotime($login) && $user[1] = $password;
+          return strtolower($user[0])  == strtolower($login) && $user[1] = $password;
         });
         if (count($result) > 0) {
             echo "<h1>Авторизация прошла успешно!</h1>";
+            $_SESSION['user'] = $login;
             include_once "footer.php";
             die();
         }else {
