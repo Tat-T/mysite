@@ -1,5 +1,6 @@
 <?php
 include "header.php";
+include "functions.php"
 ?>
         <div class="container">
             <div class="row mt-3">
@@ -14,22 +15,14 @@ include "header.php";
                         </thead>
                         <tbody>
                             <?php
-                                $fd = @fopen(__DIR__ . '/users.csv', 'r') or die('Нет запрашиваемого вами файла!');
-                                $buffer = [];
-                                while(!feof($fd)) {
-                                   $row = fgets($fd);
-                                   if ($row) {
-                                       $row = rtrim($row);
-                                       $row = explode(',', $row);
-                                       $buffer[] = $row;
-                                       echo '<tr>';
-                                       foreach($row as $col) {
-                                           echo "<td>$col</td>";
-                                       }
-                                       echo '<tr>';
-                                   }
+                                $users = readUsers();
+                                foreach($users as $row) {
+                                    echo '<tr>';
+                                    foreach ($row as $col){
+                                       echo "<td>$col</td>";
+                                    }
+                                    echo '</tr>';
                                 }
-                                fclose($fd)
                             ?>
                         </tbody>
                     </table>

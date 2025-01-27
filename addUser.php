@@ -1,5 +1,6 @@
 <?php
     include "header.php";
+    include "functions.php"
 ?>
     <div class="container">
         <div class="row">
@@ -14,25 +15,15 @@
                         $errors['login'] = "Login must be at least 3 symbols length!";
                     endif;
                     if(!filter_var($email, FILTER_VALIDATE_EMAIL)):
-                      $_errors['email'] = 'Email must be email!';
+                       $errors['email'] = 'Email must be email!';
                     endif;
                     if (count($errors) == 0):
-                        $fd = @fopen(__DIR__ . '/users.csv', 'r+') or die('Нет запрашиваемого вами файла!');
-                        while(!feof($fd)) {
-                            $user = fgets($fd);
-                            if ($user) {
-                                $user = rtrim($user);
-                                $users[] = $user;
-                            }
-                        }
-                        // реализовать поиск уникальных пользователей
-                        fputcsv($fd, [$login, $password, $email], ',' , '"', '\\');
-                        fclose($fd);
+                        addUser($login, $password, $email);
                         die('<h1>User successfully added!</h1>');
                     endif;
                 endif; 
             ?>
-            <form action="http://mysite/addUser.php" method="post" class="col-6 offset-3 border rounded p-3 mt-3">
+            <form action="http://sites/mysite/addUser.php" method="post" class="col-6 offset-3 border rounded p-3 mt-3">
 
                 <div class="row mt-3">
                     <div class="col-3"><label class="form-label" for="login">Login:</label></div>
