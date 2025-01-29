@@ -1,14 +1,11 @@
 <?php
-    include "header.php";
-    include "functions.php";
-
     $login = $_POST['login'] ?? false;
     $password = $_POST['password'] ?? false;
     // var_dump($login, $password);
     if ($login || $password) {
         $users = readUsers();
         $result = array_filter($users, function($user) use ($login, $password){
-          return strtolower($user[0])  == strtolower($login) && $user[1] = $password;
+          return strtolower($user[0])  == strtolower($login) && password_verify($password, $user[1]);
         });
         if (count($result) > 0) {
             echo "<h1>Авторизация прошла успешно!</h1>";
@@ -41,5 +38,3 @@
             </form>
         </div>
     </div>
-<?php
-    include "footer.php";

@@ -1,7 +1,3 @@
-<?php
-include "header.php";
-include "functions.php"
-?>
         <div class="container">
             <div class="row mt-3">
                 <div class="col-6 offset-3">

@@ -1,7 +1,3 @@
-<?php
-    include "header.php";
-    include "functions.php"
-?>
     <div class="container">
         <div class="row">
             <?php
@@ -47,5 +43,3 @@
             </form>
         </div>
     </div>
-<?php
-    include "footer.php";
