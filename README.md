@@ -30,3 +30,5 @@ http://sites/mysite/index.php
 <img src="images/Screenshot_3.png" alt="Окно приложения" width="350">
 
 <img src="images/Screenshot_6.png" alt="Окно приложения" width="350">
+
+http://sites/mysite/index.php?page=add

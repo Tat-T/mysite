@@ -1,6 +1,7 @@
 <?php
 
 function openUsers(string $mode) {
+    // var_dump(__DIR__);
     $fd = @fopen(__DIR__ . '/users.csv', $mode) or die('Нет запрашиваемого вами файла!');
     return $fd;
 }

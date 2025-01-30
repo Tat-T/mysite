@@ -1,22 +1,3 @@
-<?php
-    $login = $_POST['login'] ?? false;
-    $password = $_POST['password'] ?? false;
-    // var_dump($login, $password);
-    if ($login || $password) {
-        $users = readUsers();
-        $result = array_filter($users, function($user) use ($login, $password){
-          return strtolower($user[0])  == strtolower($login) && password_verify($password, $user[1]);
-        });
-        if (count($result) > 0) {
-            echo "<h1>Авторизация прошла успешно!</h1>";
-            $_SESSION['user'] = $login;
-            include_once "footer.php";
-            die();
-        }else {
-            $errors['login'] = 'Неверный логин или пароль';
-        }
-    }
-?>
     <div class="container">
         <div class="row">
             <form action="http://sites/mysite/login.php" method="post" class="col-6 offset-3 border rounded p-3 mt-3">
