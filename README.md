@@ -23,8 +23,6 @@
 ---
 ### Запуск приложения
 
-http://sites/mysite/index.php
-
 <img src="images/Screenshot_2.png" alt="Окно приложения" width="350">
 
 <img src="images/Screenshot_3.png" alt="Окно приложения" width="350">
