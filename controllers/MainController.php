@@ -1,8 +1,10 @@
 <?php
 namespace controllers;
 
-class MainController {
+use \core\Controller;
+
+class MainController extends Controller {
     function indexAction() {
-        include_once __DIR__ . '/../pages/main.php';
+        $this->render('main');
     }
 }

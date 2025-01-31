@@ -11,7 +11,6 @@
                         </thead>
                         <tbody>
                             <?php
-                                $users = readUsers();
                                 foreach($users as $row) {
                                     echo '<tr>';
                                     foreach ($row as $col){

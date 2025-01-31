@@ -23,9 +23,9 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div class="navbar-nav">
             <a class="nav-link active" aria-current="page" href="index.php">Home</a>
-            <a class="nav-link" href="index.php?page=add">Add</a>
-            <a class="nav-link" href="index.php?page=show">Show</a>
-            <a class="nav-link" href="index.php?page=login">Login</a>
+            <a class="nav-link" href="index.php?page=user/add">Add</a>
+            <a class="nav-link" href="index.php?page=user/show">Show</a>
+            <a class="nav-link" href="index.php?page=user/login">Login</a>
           </div>
         </div>
       </div>

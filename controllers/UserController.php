@@ -1,7 +1,9 @@
 <?php
 namespace controllers;
 
-class UserController
+use core\Controller;
+
+class UserController extends Controller
 {
     function addAction()
     {
@@ -22,12 +24,13 @@ class UserController
                 die('<h1>User successfully added!</h1>');
             endif;
         endif;
-        include_once __DIR__ . '/../pages/addUser.php';
+        $this->render('addUser', ['errors' => $errors]);
     }
 
     function loginAction() {
         $login = $_POST['login'] ?? false;
         $password = $_POST['password'] ?? false;
+        $errors = [];
         // var_dump($login, $password);
         if ($login || $password) {
             $users = readUsers();
@@ -43,11 +46,12 @@ class UserController
                 $errors['login'] = 'Неверный логин или пароль';
             }
         }
-        include_once __DIR__ . '/../pages/login.php';
+        $this->render('login', ['errors' => $errors]);
     }
 
     function showAction()
     {
-        include_once __DIR__ . '/../pages/showUsers.php';
+        $users = readUsers();
+        $this->render('showUsers', ['users' => $users]);
     }
 }
