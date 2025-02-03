@@ -4,6 +4,7 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
+                              <th>Id</th>
                               <th>Login</th>
                               <th>Password</th>
                               <th>Email</th>

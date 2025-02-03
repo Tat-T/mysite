@@ -7,8 +7,9 @@ $page = trim($page, '/');
 // http://sites/mysite/user/show
 
 $parts = explode('/', $page);
-$controllerName = $parts[0] ?: 'main';
-$actionName = $parts[1] ?? 'index';
+$controllerName = array_shift($parts) ?: 'main';
+$actionName = array_shift($parts) ?? 'index';
+$params = $parts;
 
 //[$controllerName, $actionName] = explode('/', $page); сокращение строк вышестоящих 5,6,7
 
@@ -30,4 +31,4 @@ if (!method_exists($controller, $actionName)) {
     $controller->notFoundAction();
     exit();
 }
-$controller->$actionName();
+$controller->$actionName(...$params);

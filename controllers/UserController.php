@@ -49,9 +49,9 @@ class UserController extends Controller
         $this->render('login', ['errors' => $errors]);
     }
 
-    function showAction()
+    function showAction($id=0)
     {
-        $users = readUsers();
+        $users = readUsers($id);
         $this->render('showUsers', ['users' => $users]);
     }
 }
