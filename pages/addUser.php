@@ -1,6 +1,6 @@
     <div class="container">
         <div class="row">
-            <form action="index.php?page=user/add" enctype="multipart/form-data" method="post" class="col-6 offset-3 border rounded p-3 mt-3 bg-light position-absolute top-50 start-0 translate-middle-y">
+            <form action="http://mysite.ru/user/add" enctype="multipart/form-data" method="post" class="col-6 offset-3 border rounded p-3 mt-3 bg-light position-absolute top-50 start-0 translate-middle-y">
 
                 <div class="row mt-3">
                     <div class="col-3"><label class="form-label" for="login">Login:</label></div>

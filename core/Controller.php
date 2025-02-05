@@ -12,4 +12,10 @@ class Controller
         $content = ob_get_clean();
         include_once __DIR__ . "/../pages/$layout.php";
     }
+
+    function redirect($page=''){
+        header("HTTP/1.1 301 Moved Permanently");
+        header("Location: http://mysite.ru/$page");
+        header("Connection: close");
+    }
 }
