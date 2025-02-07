@@ -14,20 +14,10 @@ class UserController extends Controller
         $email = $_POST['email'] ?? '';
 
         $user = new User($login, $password, $email);
-        if (!empty($login) || !empty($password) || !empty($email)):
-            if (strlen($login) < 3):
-               $user->errors['login'] = "Login must be at least 3 symbols length!";
-            endif;
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL)):
-               $user->errors['email'] = 'Email must be email!';
-            endif;
-            if (count($user->errors) == 0):
-                $id = $user->addUser();
-                return $this->redirect("user/show/$id");
-                // $user->addUser();
-                // die('<h1>User successfully added!</h1>');
-            endif;
-        endif;
+        if  ($user-> validate()){
+             $id = $user->addUser();
+             return $this->redirect("user/show/$id");
+        }
         $this->render('addUser', ['errors' => $user->errors]);
     }
 

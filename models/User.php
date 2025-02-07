@@ -29,6 +29,7 @@ class User
         }
         return false;
     }
+    
     private function openUsers(string $mode)
     {
         // var_dump(__DIR__);
@@ -96,4 +97,17 @@ class User
         return strtolower($user[1]) == strtolower($this->login)
             && password_verify($this->password, $user[2]);
     }
+    
+    public function validate() {
+        if (!empty($this->login) && !empty($this->password) && !empty($this->email)){
+            if (strlen($this->login) < 3){
+               $this->errors['login'] = "Login must be at least 3 symbols length!";
+            }
+            if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)){
+               $this->errors['email'] = 'Email must be email!';
+            }
+            return count($this->errors)== 0;
+        }
+        return false;
+}
 }
