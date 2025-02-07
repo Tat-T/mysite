@@ -15,6 +15,7 @@ class UserController extends Controller
 
         $user = new User($login, $password, $email);
         if  ($user-> validate()){
+            $user->upload_image();
              $id = $user->addUser();
              return $this->redirect("user/show/$id");
         }

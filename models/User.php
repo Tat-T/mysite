@@ -16,7 +16,7 @@ class User
 
     function upload_image()
     {
-        $uploads_dir = __DIR__ . '/images';
+        $uploads_dir = __DIR__ . '/../images';
         if (!is_dir($uploads_dir)) {
             mkdir($uploads_dir);
         }
@@ -24,11 +24,12 @@ class User
         if ($error == UPLOAD_ERR_OK) {
             $tmp_name = $_FILES["profile"]["tmp_name"];
             $extension = pathinfo($_FILES["profile"]["name"], PATHINFO_EXTENSION);
-            $this->profile_pic = md5(date_create()->format('Unix Timestamp'));
-            return move_uploaded_file($tmp_name, "$uploads_dir/{$this->profile_pic}.$extension");
+            $this->profile_pic = md5(date_create()->format('Unix Timestamp')) . '.' . $extension;
+            return move_uploaded_file($tmp_name, "$uploads_dir/{$this->profile_pic}");
         }
         return false;
     }
+    
     
     private function openUsers(string $mode)
     {
@@ -62,7 +63,7 @@ class User
     function addUser()
     {
         $users = $this->readUsers('r');
-        if (in_array($this->login, array_column($users, 0)) || in_array($this->email, array_column($users, 2))) {
+        if (in_array($this->login, array_column($users, 1)) || in_array($this->email, array_column($users, 3))) {
             die('пользователь с такими учётными данными уже зарегистрирован!');
         }
         $fd = $this->openUsers('a');
@@ -71,7 +72,8 @@ class User
             $last_id + 1,
             $this->login,
             password_hash($this->password, PASSWORD_DEFAULT),
-            $this->email
+            $this->email,
+            $this->profile_pic
         ], escape: "\\");
         fclose($fd);
         return $last_id + 1;
