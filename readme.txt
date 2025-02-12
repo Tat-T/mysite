@@ -155,3 +155,80 @@ http {
     #}
 
 }
+
+
+-----------------
+<?php
+// $host = '127.0.0.1';
+// $db = 'first';
+// $user = 'root';
+// $password = '123456780';
+
+$user = ""; // Если используется Windows-аутентификация (Trusted_Connection)
+$password = "";
+
+$dsn = "sqlsrv:Server=DESKTOP-NKNKVEQ\\SQLEXPRESS;Database=first;TrustServerCertificate=True";
+$pdo = new PDO($dsn, $user, $password, [
+    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+    PDO::ATTR_EMULATE_PREPARES => false,
+]);
+
+$username = $_GET['username'];
+$query = "SELECT * FROM [User] WHERE [User] = :username";
+
+$stmt = $pdo->prepare($query);
+$stmt->bindParam(':username', $username, PDO::PARAM_STR);
+$stmt->execute();
+
+while ($row = $stmt->fetch()){
+    echo $row['User'] . ' ' . $row['password'] . "\n";
+}
+------------------------------------------------------------
+Вывод в терминал таблицы из БД
+
+D:\sites\mysite\core>php Database.php
+
+ID | Username | Password
+-------------------------
+1 | user1 | 123
+2 | user2 | 456
+3 | user3 | 4455
+
+-------------код для вывода в консоль Database.php
+
+<?php
+// Настройки подключения
+$user = ""; // Если используется Windows-аутентификация (Trusted_Connection)
+$password = "";
+
+$dsn = "sqlsrv:Server=DESKTOP-NKNKVEQ\\SQLEXPRESS;Database=first;TrustServerCertificate=True";
+
+try {
+    // Подключение к базе данных
+    $pdo = new PDO($dsn, $user, $password, [
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        PDO::ATTR_EMULATE_PREPARES => false,
+    ]);
+
+    // SQL-запрос для выбора 1000 записей из таблицы [User]
+    $sql = "SELECT TOP (1000) [id], [User], [password] FROM [dbo].[User]";
+    
+    // Подготовка и выполнение запроса
+    $stmt = $pdo->query($sql);
+
+    // Вывод заголовка таблицы
+    echo "ID | Username | Password\n";
+    echo "-------------------------\n";
+
+    // Вывод данных в консоль
+    while ($row = $stmt->fetch()) {
+        echo "{$row['id']} | {$row['User']} | {$row['password']}\n";
+    }
+    
+} catch (PDOException $e) {
+    // Обработка ошибок
+    echo "Ошибка подключения к базе данных: " . $e->getMessage();
+}
+-------------------------------------------------------------------
