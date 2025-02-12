@@ -1,0 +1,17 @@
+{
+    "name": "tanya/mysite",
+    "require": {
+        "fakerphp/faker": "^1.24"
+    },
+    "autoload": {
+        "psr-4": {
+            "Tanya\\Mysite\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Tat-T",
+            "email": "ring_87_87@mail.ru"
+        }
+    ]
+}

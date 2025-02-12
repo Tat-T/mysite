@@ -24,6 +24,7 @@ $pdo = new PDO($dsn, $user, $password, [
 // ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 // SQL;
 
+// Создание таблицы migrations, если она не существует
 //для SSMS
 
 $createTableQuery = "
