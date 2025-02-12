@@ -1,7 +1,0 @@
-CREATE TABLE IF NOT EXIST 'Users' (
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    login VARCHAR(255),
-    password VARCHAR(255),
-    email VARCHAR(255),
-    picture VARCHAR(255)
-);
