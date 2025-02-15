@@ -237,7 +237,15 @@ https://phpfaq.ru/pdo Как работать с PDO? Полное руково�
 Composer — это инструмент для управления сторонними библиотеками в PHP-проекте. 
 Установка composer https://getcomposer.org/download/
 
+--------------------------14.02.25----------------------------
+
 использование Faker в терминале:
 D:\sites\mysite\console>php seeder.php
 Ms. Serena Pfeffer III
 ---------------------------
+в корне проекта в терминале (cmd)
+composer require vlucas/phpdotenv 
+composer require doctrine/orm doctrine/dbal
+composer require doctrine/orm doctrine/dbal symfony/cache
+
+---------------------------------------------------------------
