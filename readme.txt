@@ -248,4 +248,6 @@ composer require vlucas/phpdotenv
 composer require doctrine/orm doctrine/dbal
 composer require doctrine/orm doctrine/dbal symfony/cache
 
+если D:\sites\mysite>php bootstrap.php без ошибок установка прошла успешно composer require doctrine/orm doctrine/dbal
+composer require doctrine/orm doctrine/dbal symfony/cache
 ---------------------------------------------------------------
