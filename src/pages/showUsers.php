@@ -1,6 +1,6 @@
         <div class="container">
             <div class="row mt-3">
-                <div class="col-6 offset-3 position-absolute top-50 start-0 translate-middle-y">
+                <div class="col">
                     <table class="table table-striped">
                         <thead>
                             <div>
@@ -15,9 +15,9 @@
                         </thead>
                         <tbody>
                             <?php
-                            foreach ($users as $row) {
+                            foreach ($users as $user) {
                                 echo '<tr>';
-                                foreach ($row as $i => $col) {
+                                foreach ($user as $i => $col) {
                                     if ($i == 4) {
                                         echo "<td><img src=\"/images/$col\" alt=\"\" width=\"100\"></td>";
                                     } else {

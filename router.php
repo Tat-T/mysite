@@ -18,16 +18,18 @@ $controllerName = "\\controllers\\{$controllerName}Controller";
 $actionName = strtolower($actionName);
 $actionName .= 'Action';
 
-if (!file_exists(__DIR__ . DIRECTORY_SEPARATOR . str_replace('\\', DIRECTORY_SEPARATOR, $controllerName) . '.php')) {
-    $controller = new \controllers\MainController;
+include_once __DIR__ . '/bootstrap.php';
+if (!file_exists(__DIR__ . '/src/' . str_replace('\\', DIRECTORY_SEPARATOR, $controllerName) . '.php')) {
+    $controller = new  Tanya\Mysite\controllers\MainController($entityManager);
     $controller->notFoundAction();
     die();
 }else{
-    $controller = new $controllerName();
+    $controllerName = 'Tanya\\Mysite' . $controllerName;
+    $controller = new $controllerName($entityManager);
 }
 
 if (!method_exists($controller, $actionName)) {
-    $controller = new \controllers\MainController;
+    $controller = new Tanya\Mysite\controllers\MainController($entityManager);
     $controller->notFoundAction();
     exit();
 }

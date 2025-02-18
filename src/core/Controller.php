@@ -1,9 +1,12 @@
 <?php
 
-namespace core;
+namespace Tanya\Mysite\core;
 
 class Controller
 {
+    // public function __construct($entityManager){}
+    public function __construct(protected $entityManager){}
+
     function render(string $view, $data = [], string $layout = 'layout')
     {
         extract($data);
@@ -13,7 +16,8 @@ class Controller
         include_once __DIR__ . "/../pages/$layout.php";
     }
 
-    function redirect($page=''){
+    function redirect($page = '')
+    {
         header("HTTP/1.1 301 Moved Permanently");
         header("Location: http://mysite.ru/$page");
         header("Connection: close");

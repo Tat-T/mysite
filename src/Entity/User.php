@@ -1,12 +1,15 @@
 <?php
 
-namespace App\Entity;
+namespace Tanya\Mysite\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use IteratorAggregate;
+use ArrayIterator;
+use Traversable;
 
 #[ORM\Entity]
-#[ORM\Table(name: "users")]
-class User
+#[ORM\Table(name: "Users")]
+class User implements IteratorAggregate
 {
      #[ORM\Id]
      #[ORM\GeneratedValue]
@@ -24,4 +27,16 @@ class User
     
    #[ORM\Column(type: "string", nullable: true)]
     private ?string $picture;
+
+    public function getIterator(): Traversable
+    {
+        return new ArrayIterator([
+            'id' => $this -> id,
+            'login' => $this -> login,
+            'password'=> $this -> password,
+            'email' => $this -> email,
+            'picture' => $this -> picture
+        ]);
+
+    }
 }

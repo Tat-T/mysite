@@ -7,6 +7,9 @@ use Doctrine\DBAL\DriverManager;
 
 include_once __DIR__ . '/vendor/autoload.php';
 
+// Настройки
+const IMAGES_DIR = __DIR__ . '/src/images';
+
 //Загрузка переменных окружения из .env файла
 $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();

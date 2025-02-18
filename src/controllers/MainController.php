@@ -1,7 +1,7 @@
 <?php
-namespace controllers;
+namespace Tanya\Mysite\controllers;
 
-use \core\Controller;
+use Tanya\Mysite\core\Controller;
 
 class MainController extends Controller {
     function indexAction() {

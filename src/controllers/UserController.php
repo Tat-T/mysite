@@ -1,9 +1,9 @@
 <?php
 
-namespace controllers;
+namespace Tanya\Mysite\controllers;
 
-use core\Controller;
-use models\User;
+use Tanya\Mysite\core\Controller;
+use Tanya\Mysite\models\User;
 
 class UserController extends Controller
 {
@@ -39,8 +39,12 @@ class UserController extends Controller
 
     function showAction($id = 0)
     {
-        $user = new User();
-        $users = $user->readUsers($id);
+        // $user = new User();
+        // $users = $user->readUsers($id);
+        
+        $userRepository = $this->entityManager->getRepository(\Tanya\Mysite\Entity\User::class);
+        $users = $userRepository->findAll();
+
         $this->render('showUsers', ['users' => $users]);
     }
 }

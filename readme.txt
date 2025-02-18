@@ -250,4 +250,18 @@ composer require doctrine/orm doctrine/dbal symfony/cache
 
 если D:\sites\mysite>php bootstrap.php без ошибок установка прошла успешно composer require doctrine/orm doctrine/dbal
 composer require doctrine/orm doctrine/dbal symfony/cache
----------------------------------------------------------------
+----------------------------17.02.25----------------------------------
+
+Настройки БД для доктрины: (файл "Настройка для Доктрины SSMS.txt")
+
+1 Разрешить соединения через именованные каналы
+
+2 Включить стандартный порт 1433 (для SQL Server)
+
+3 Разрешить SQL Server работать через брандмауэр
+
+4 Включите смешанный режим  работы SQL Server (SQL Server + Windows Authentication):
+
+5 Создать пользователя в Microsoft SQL Server Management Studio (SSMS) и дать ему права на базу данных first
+
+----------------------------------------------------------------------------------------------------------------
