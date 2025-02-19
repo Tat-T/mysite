@@ -16,10 +16,10 @@ class UserController extends Controller
         $email = $_POST['email'] ?? '';
 
         $user = new User($login, $password, $email);
-        if  ($user-> validate()){
+        if ($user->validate()) {
             $user->upload_image();
-             $id = $user->addUser();
-             return $this->redirect("user/show/$id");
+            $id = $user->addUser();
+            return $this->redirect("user/show/$id");
         }
         $this->render('addUser', ['errors' => $user->errors]);
     }
@@ -32,14 +32,15 @@ class UserController extends Controller
 
         $user = new User($login, $password);
         if ($user->login()) {
-           $this->redirect();
-           return;
+            $this->redirect();
+            return;
         }
 
         $this->render('login', ['errors' => $user->errors]);
     }
 
-    function editAction($id = 0){
+    function editAction($id = 0)
+    {
         // if($id > 0){
         //     $login = $_POST['login'] ?? '';
 
@@ -52,31 +53,33 @@ class UserController extends Controller
         //     $this->redirect('user/show');
         // }
 
-        if($id > 0){
+        if ($id > 0) {
             $login = $_POST['login'] ?? '';
             $email = $_POST['email'] ?? '';
             $errors = [];
+
             $userRepository = $this->entityManager->getRepository(EntityUser::class);
             $user = $userRepository->find($id);
+            $isset_picture = $user->uploadImage();
 
             //Валидация сущности
-            if ($login || $email){
-                $user->login = $login;
-                $user->email = $email;
+            if ($login || $email || $user->uploadImage()) {
+                $user->login = $login ?: $user->login;
+                $user->email = $email ?: $user->email;
                 $violations = $this->validator->validate($user);
 
-                foreach ($violations as $violation){
+                foreach ($violations as $violation) {
                     $property = $violation->getPropertyPath();
                     $errors[$property] = $violation->getMessage();
                 }
-                if (empty($errors)){
-                  $this->entityManager->flush();
-                  return $this->redirect('user/show/1');
+                if (empty($errors)) {
+                    $this->entityManager->flush();
+                    return $this->redirect('user/show/1');
                 }
             }
-            
+
             $this->render('editUser', ['user' => $user, 'errors' => $errors]);
-        }else {
+        } else {
             $this->redirect('user/add');
         }
     }
@@ -86,10 +89,9 @@ class UserController extends Controller
         // $user = new User();
         // $users = $user->readUsers($id);
         $userRepository = $this->entityManager->getRepository(\Tanya\Mysite\Entity\User::class);
-        if($id > 0) {
+        if ($id > 0) {
             $users = [$userRepository->find($id)];
-        }else
-        {
+        } else {
             $users = $userRepository->findAll();
         }
         $this->render('showUsers', ['users' => $users]);

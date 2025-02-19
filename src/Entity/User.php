@@ -43,4 +43,24 @@ class User implements IteratorAggregate
         ]);
 
     }
+
+    public function uploadImage()
+    {
+        $uploads_dir = IMAGES_DIR;
+        if (!is_dir($uploads_dir)) {
+            mkdir($uploads_dir);
+        }
+        if(!isset($_FILES["profile"])){
+        return false;
+        }
+        $error = $_FILES["profile"]["error"];
+        if ($error == UPLOAD_ERR_OK) {
+            $tmp_name = $_FILES["profile"]["tmp_name"];
+            $extension = pathinfo($_FILES["profile"]["name"], PATHINFO_EXTENSION);
+            $this->picture = md5(date_create()->format('Unix Timestamp')) . '.' . $extension;
+            return move_uploaded_file($tmp_name, "$uploads_dir/{$this->picture}");
+        }
+        return false;
+    }
+    
 }

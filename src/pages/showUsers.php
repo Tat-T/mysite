@@ -18,8 +18,8 @@
                             foreach ($users as $user) {
                                 echo '<tr>';
                                 foreach ($user as $i => $col) {
-                                    if ($i == 4) {
-                                        echo "<td><img src=\"/images/$col\" alt=\"\" width=\"100\"></td>";
+                                    if ($i == 'picture') {
+                                        echo "<td><img src=\"/src/images/$col\" alt=\"\" width=\"100\"></td>";
                                     } else {
                                         echo "<td>$col</td>";
                                     }
