@@ -4,6 +4,7 @@ namespace Tanya\Mysite\controllers;
 
 use Tanya\Mysite\core\Controller;
 use Tanya\Mysite\models\User;
+use Tanya\Mysite\Entity\User as EntityUser;
 
 class UserController extends Controller
 {
@@ -37,14 +38,30 @@ class UserController extends Controller
         $this->render('login', ['errors' => $user->errors]);
     }
 
+    function editAction($id = 0){
+        if($id > 0){
+            $login = $_POST['login'] ?? '';
+            $email = $_POST['email'] ?? '';
+            $userRepository = $this->entityManager->getRepository(EntityUser::class);
+            $user = $userRepository->find($id);
+            //
+            $this->render('editUser', ['user' => $user]);
+        }else {
+            $this->redirect('user/show');
+        }
+    }
+
     function showAction($id = 0)
     {
         // $user = new User();
         // $users = $user->readUsers($id);
-        
         $userRepository = $this->entityManager->getRepository(\Tanya\Mysite\Entity\User::class);
-        $users = $userRepository->findAll();
-
+        if($id > 0) {
+            $users = [$userRepository->find($id)];
+        }else
+        {
+            $users = $userRepository->findAll();
+        }
         $this->render('showUsers', ['users' => $users]);
     }
 }

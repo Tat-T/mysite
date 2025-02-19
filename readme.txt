@@ -264,4 +264,6 @@ composer require doctrine/orm doctrine/dbal symfony/cache
 
 5 Создать пользователя в Microsoft SQL Server Management Studio (SSMS) и дать ему права на базу данных first
 
-----------------------------------------------------------------------------------------------------------------
+-----------------------------19.02.25----------------------------------
+
+D:\sites\mysite>composer require symfony/validator 

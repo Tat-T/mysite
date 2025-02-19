@@ -14,28 +14,28 @@ class User implements IteratorAggregate
      #[ORM\Id]
      #[ORM\GeneratedValue]
      #[ORM\Column(type: "integer")]
-     private ?int $id = null;
+     public ?int $id = null;
 
     #[ORM\Column(type: "string")]
-    private string $login;
+    public string $login;
 
     #[ORM\Column(type:"string")]
-    private  string $password;
+    public  string $password;
 
     #[ORM\Column(type: "string")]
-    private string $email;
+    public string $email;
     
    #[ORM\Column(type: "string", nullable: true)]
-    private ?string $picture;
+    public ?string $picture;
 
     public function getIterator(): Traversable
     {
         return new ArrayIterator([
-            'id' => $this -> id,
-            'login' => $this -> login,
-            'password'=> $this -> password,
-            'email' => $this -> email,
-            'picture' => $this -> picture
+            'id'       => $this -> id,
+            'login'    => $this -> login,
+            'password' => $this -> password,
+            'email'    => $this -> email,
+            'picture'  => $this -> picture
         ]);
 
     }
