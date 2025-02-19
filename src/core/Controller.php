@@ -2,10 +2,19 @@
 
 namespace Tanya\Mysite\core;
 
+use Dotenv\Validator;
+use Symfony\Component\Validator\Validation;
+
 class Controller
 {
     // public function __construct($entityManager){}
-    public function __construct(protected $entityManager){}
+    // public function __construct(protected $entityManager){}
+    protected $validator;
+    public function __construct(protected $entityManager){
+        $this->validator = Validation::createValidatorBuilder()
+        ->enableAttributeMapping()
+        ->getValidator();
+    }
 
     function render(string $view, $data = [], string $layout = 'layout')
     {

@@ -2,6 +2,7 @@
 
 namespace Tanya\Mysite\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use IteratorAggregate;
 use ArrayIterator;
@@ -17,12 +18,15 @@ class User implements IteratorAggregate
      public ?int $id = null;
 
     #[ORM\Column(type: "string")]
+    #[Assert\NotBlank(message:"Имя не может быть пустым.")]
     public string $login;
 
     #[ORM\Column(type:"string")]
     public  string $password;
 
     #[ORM\Column(type: "string")]
+    #[Assert\NotBlank(message:"Email не может быть пустым.")]
+    #[Assert\Email(message:"Не корректный email.")]
     public string $email;
     
    #[ORM\Column(type: "string", nullable: true)]
