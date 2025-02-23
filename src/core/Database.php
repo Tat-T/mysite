@@ -1,34 +1,38 @@
 <?php
-// Настройки подключения
-$user = ""; // Если используется Windows-аутентификация (Trusted_Connection)
+$host = "DESKTOP-NKNKVEQ\\SQLEXPRESS";
+$user = "";  // Windows-аутентификация
 $password = "";
+$dbname = "first";
 
-$dsn = "sqlsrv:Server=DESKTOP-NKNKVEQ\\SQLEXPRESS;Database=first;TrustServerCertificate=True";
+class Database
+{
+    private $connection;
 
-// try {
-    // Подключение к базе данных
-    $pdo = new PDO($dsn, $user, $password, [
-        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        PDO::ATTR_EMULATE_PREPARES => false,
-    ]);
+    public function connect($host, $user, $password, $dbname) {
+        try {
+            $dsn = "sqlsrv:Server=$host;Database=$dbname";
+            $this->connection = new PDO($dsn, $user, $password);
+            $this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch (PDOException $e) {
+            die("Ошибка подключения: " . $e->getMessage());
+        }
+        return $this->connection;
+    }
 
-//     // SQL-запрос для выбора 1000 записей из таблицы [User]
-//     $sql = "SELECT TOP (1000) [id], [User], [password] FROM [dbo].[User]";
-    
-//     // Подготовка и выполнение запроса
-//     $stmt = $pdo->query($sql);
-
-//     // Вывод заголовка таблицы
-//     echo "ID | Username | Password\n";
-//     echo "-------------------------\n";
-
-//     // Вывод данных в консоль
-//     while ($row = $stmt->fetch()) {
-//         echo "{$row['id']} | {$row['User']} | {$row['password']}\n";
-//     }
-    
-// } catch (PDOException $e) {
-//     // Обработка ошибок
-//     echo "Ошибка подключения к базе данных: " . $e->getMessage();
-// }
+    function createUsersTable($pdo)
+    {
+        $sql = "CREATE TABLE Users (
+            id INT IDENTITY(1,1) PRIMARY KEY,
+            login NVARCHAR(50) UNIQUE NOT NULL,
+            password NVARCHAR(255) NOT NULL,
+            email NVARCHAR(100) UNIQUE NOT NULL,
+            picture NVARCHAR(255),
+        )";
+        try {
+            $pdo->exec($sql);
+            echo "Таблица пользователей успешно создана.";
+        } catch (PDOException $e) {
+            echo "Ошибка создания таблицы: " . $e->getMessage();
+        }
+    }
+}

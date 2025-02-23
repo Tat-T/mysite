@@ -2,17 +2,26 @@
 
 namespace Tanya\Mysite\models;
 
+use PDO;
+use PDOException;
+
+require_once __DIR__ . '/../core/Database.php';
+
 class User
 {
     public $id;
     public $profile_pic;
     public $errors = [];
+    private $db;
 
     function __construct(
         public $login = '',
         public $password = '',
         public $email = ''
-    ) {}
+    ) {
+        $database = new \Database();
+        $this->db = $database->connect("DESKTOP-NKNKVEQ\\SQLEXPRESS", "", "", "first");
+    }
 
     function upload_image()
     {
@@ -24,92 +33,85 @@ class User
         if ($error == UPLOAD_ERR_OK) {
             $tmp_name = $_FILES["profile"]["tmp_name"];
             $extension = pathinfo($_FILES["profile"]["name"], PATHINFO_EXTENSION);
-            $this->profile_pic = md5(date_create()->format('Unix Timestamp')) . '.' . $extension;
+            $this->profile_pic = md5(date_create()->format('U')) . '.' . $extension;
             return move_uploaded_file($tmp_name, "$uploads_dir/{$this->profile_pic}");
         }
         return false;
     }
-    
-    
-    private function openUsers(string $mode)
+
+    function addUser()
     {
-        // var_dump(__DIR__);
-        $fd = @fopen(__DIR__ . '/../users.csv', $mode) or die('Нет запрашиваемого вами файла!');
-        return $fd;
+        try {
+            $stmt = $this->db->prepare("INSERT INTO Users (login, password, email, picture) VALUES (:login, :password, :email, :picture)");
+            $stmt->execute([
+                ':login' => $this->login,
+                ':password' => password_hash($this->password, PASSWORD_DEFAULT),
+                ':email' => $this->email,
+                ':picture' => $this->profile_pic
+            ]);
+            return $this->db->lastInsertId();
+        } catch (PDOException $e) {
+            die('Ошибка добавления пользователя: ' . $e->getMessage());
+        }
+    }
+
+    function deleteUser($userId)
+    {
+        try {
+            $stmt = $this->db->prepare("DELETE FROM Users WHERE id = :id");
+            $stmt->execute([
+                ':id' => $userId
+            ]);
+            return $stmt->rowCount();
+        } catch (PDOException $e) {
+            die('Ошибка удаления пользователя: ' . $e->getMessage());
+        }
     }
 
     function readUsers($id = 0)
     {
-        $users = [];
-        $fd = $this->openUsers('r');
-        while (!feof($fd)) {
-            $user = fgets($fd);
-            if ($user) {
-                $user = rtrim($user);
-                $users[] = explode(',', $user);
-                if ($id > 0) {
-                    $result = preg_match('!^(\d+),.!', $user, $matches);
-                    if ($result && $matches[1] == $id) {
-                        fclose($fd);
-                        return [explode(',', $user)];
-                    }
-                }
+        try {
+            if ($id > 0) {
+                $stmt = $this->db->prepare("SELECT * FROM Users WHERE id = :id");
+                $stmt->execute([':id' => $id]);
+                return $stmt->fetch(PDO::FETCH_ASSOC);
+            } else {
+                $stmt = $this->db->query("SELECT * FROM Users");
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
             }
+        } catch (PDOException $e) {
+            die('Ошибка получения пользователей: ' . $e->getMessage());
         }
-        fclose($fd);
-        return $users;
     }
 
-    function addUser()
+    public function login(): bool
     {
-        $users = $this->readUsers('r');
-        if (in_array($this->login, array_column($users, 1)) || in_array($this->email, array_column($users, 3))) {
-            die('пользователь с такими учётными данными уже зарегистрирован!');
-        }
-        $fd = $this->openUsers('a');
-        $last_id = array_pop($users)[0];
-        fputcsv(stream: $fd, fields: [
-            $last_id + 1,
-            $this->login,
-            password_hash($this->password, PASSWORD_DEFAULT),
-            $this->email,
-            $this->profile_pic
-        ], escape: "\\");
-        fclose($fd);
-        return $last_id + 1;
-    }
-
-    public function login() : bool
-    {
-        if ($this->login == '' || $this->password == '') {
+        try {
+            $stmt = $this->db->prepare("SELECT * FROM Users WHERE login = :login");
+            $stmt->execute([':login' => $this->login]);
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($user && password_verify($this->password, $user['password'])) {
+                $_SESSION['user'] = $this->login;
+                return true;
+            }
+            $this->errors['login'] = 'Неверный логин или пароль';
             return false;
+        } catch (PDOException $e) {
+            die('Ошибка входа: ' . $e->getMessage());
         }
-        $users = $this->readUsers();
-        $result = array_filter($users, [$this, 'checkPassword']);
-        if (count($result) > 0) {
-            echo "<h1>Авторизация прошла успешно!</h1>";
-            $_SESSION['user'] = $this->login;
-            return true;
-        }
-        $this->errors['login'] = 'Неверный логин или пароль';
-        return false;
     }
-    private function checkPassword($user)
+
+    public function validate()
     {
-        return strtolower($user[1]) == strtolower($this->login)
-            && password_verify($this->password, $user[2]);
-    }
-    
-    public function validate() {
-        if (!empty($this->login) && !empty($this->password) && !empty($this->email)){
-            if (strlen($this->login) < 3){
-               $this->errors['login'] = "Login must be at least 3 symbols length!";
+        if (!empty($this->login) && !empty($this->password) && !empty($this->email)) {
+            if (strlen($this->login) < 3) {
+                $this->errors['login'] = "Login must be at least 3 symbols length!";
             }
-            if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)){
-               $this->errors['email'] = 'Email must be email!';
+            if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
+                $this->errors['email'] = 'Email must be email!';
             }
-            return count($this->errors)== 0;
+            return count($this->errors) == 0;
         }
         return false;
-}
+    }
 }
