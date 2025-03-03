@@ -267,3 +267,6 @@ composer require doctrine/orm doctrine/dbal symfony/cache
 -----------------------------19.02.25----------------------------------
 
 D:\sites\mysite>composer require symfony/validator 
+
+
+http://sites/mysite/index.php?page=add

@@ -16,17 +16,23 @@
 
 ### Запуск сервера:
 
-`php-cgi.exe`
+`php-cgi.exe -b 127.0.0.1:9123`
 
 `start nginx`
+
+запускаем БД SSMS
 
 ---
 ### Запуск приложения
 
-<img src="images/Screenshot_2.png" alt="Окно приложения" width="350">
+http://mysite.ru/user/login
 
-<img src="images/Screenshot_3.png" alt="Окно приложения" width="350">
+<img src="images/Screenshot_5.png" alt="Окно login" width="350">
 
-<img src="images/Screenshot_6.png" alt="Окно приложения" width="350">
+http://mysite.ru/user/add
 
-http://sites/mysite/index.php?page=add
+<img src="images/Screenshot_4.png" alt="Окно add" width="350">
+
+http://mysite.ru/user/show
+
+<img src="images/Screenshot_1.png" alt="Окно show" width="350">

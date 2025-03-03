@@ -27,6 +27,10 @@
                                 <?php endif; ?>
                             </td>
                             <td>
+                                <form class="mb-2" method="POST" action="http://mysite.ru/user/edit/<?= $user->id ?>">
+                                    <input type="hidden" name="user_id" value="<?= htmlspecialchars($user->id) ?>">
+                                    <button type="submit" class="btn btn-secondary">Редактировать</button>
+                                </form>
                                 <form method="POST" action="/src/pages/deleteUser.php">
                                     <input type="hidden" name="user_id" value="<?= htmlspecialchars($user->id) ?>">
                                     <button type="submit" class="btn btn-danger" onclick="return confirm('Вы уверены, что хотите удалить этого пользователя?')">Удалить</button>

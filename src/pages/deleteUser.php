@@ -16,7 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['user_id'])) {
     if ($user) {
         $entityManager->remove($user);
         $entityManager->flush();
-        header("Location: showUsers.php"); // Обновить список
+        
+        header("Location: /user/show"); 
         exit();
     } else {
         echo "Пользователь не найден.";
