@@ -1,21 +1,24 @@
 <?php
-require_once __DIR__ . '/../models/User.php'; // Подключаем файл с классом User
 
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["user_id"])) {
-    $userId = intval($_POST["user_id"]); // Приводим к числу для безопасности
+use Tanya\Mysite\Entity\User;
+use Doctrine\ORM\EntityManager;
 
-    $user = new User(); // Создаем объект класса User
-    $deleted = $user->deleteUser($userId);
+require_once __DIR__ . '/../../bootstrap.php';
 
-    if ($deleted) {
-        header("Location: index.php?message=Пользователь успешно удален");
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['user_id'])) {
+    $userId = (int) $_POST['user_id'];
+
+    /** @var EntityManager $entityManager */
+    global $entityManager;
+
+    $user = $entityManager->find(User::class, $userId);
+    
+    if ($user) {
+        $entityManager->remove($user);
+        $entityManager->flush();
+        header("Location: showUsers.php"); // Обновить список
         exit();
     } else {
-        header("Location: index.php?error=Ошибка удаления пользователя");
-        exit();
+        echo "Пользователь не найден.";
     }
-} else {
-    header("Location: index.php?error=Неверный запрос");
-    exit();
 }
-?>

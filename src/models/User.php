@@ -94,7 +94,7 @@ class User
                 $_SESSION['user'] = $this->login;
                 return true;
             }
-            $this->errors['login'] = 'Неверный логин или пароль';
+            // $this->errors['login'] = 'Неверный логин или пароль';
             return false;
         } catch (PDOException $e) {
             die('Ошибка входа: ' . $e->getMessage());
